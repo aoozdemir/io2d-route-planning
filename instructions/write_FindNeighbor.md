@@ -11,19 +11,16 @@ To write this method, you can use the following steps:
 
 Pseudocode for the exercise is given below:
 
->The FindNeighbor method, given a `vector<int> node_indices`:
->
->1. Create a pointer `Node *closest_node = nullptr`
->2. Declare a temporary Node variable `node`
->
->3. For each `node_index` in `node_indices`
-        
->  1. Set `node` equal to the `parent_model->SNodes()[node_index]`
->  2. If the distance from `this` to `node` is nonzero, _and_ the `node` has not been visited:
->
->    1. If the `closest_node` equals `nullptr`, _or_ the distance from `this` to `node` is less than the distance from `this` to `*closest_node`:
->      - Set `closest_node` to point to the address of `parent_model->SNodes()[node_index]`.
->4. Finally, return the `closest_node`.
+The FindNeighbor method, given a `vector<int> node_indices`:
+
+- Create a pointer `Node *closest_node = nullptr`
+- Declare a temporary Node variable `node`
+- For each `node_index` in `node_indices`
+  - Set `node` equal to the `parent_model->SNodes()[node_index]`
+  - If the distance from `this` to `node` is nonzero, _and_ the `node` has not been visited:
+    - If the `closest_node` equals `nullptr`, _or_ the distance from `this` to `node` is less than the distance from `this` to `*closest_node`:
+      - Set `closest_node` to point to the address of `parent_model->SNodes()[node_index]`.
+- Finally, return the `closest_node`.
 
 
 Note that there will be no tests for this method. The method is private, and will be used as a helper function in a public method in the next exercise.
