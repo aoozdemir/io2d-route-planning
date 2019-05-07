@@ -6,11 +6,11 @@ To complete this exercise, you can use the following steps:
 2. In `route_planner.cpp` define the `AStarSearch` method. The method should do the following:
   1. Set the parent of `end_node` to the `start_node`.
   2. Set `m_Model.path` to the result of calling `ConstructFinalPath` on `end_node`.
-3. In `main.cpp` call `AStarSearch` on the `RoutePlanner` object. This should happen just after the `RoutePlanner` object is defined, but before the `Render render{model}`. 
+3. In `main.cpp` call `AStarSearch` on the `RoutePlanner` object. This should happen just after the `RoutePlanner` object is defined, but before the `Render render{model}`.
 4. Also in `main.cpp` use the `GetDistance()` method of the `RoutePlanner` object to print the length of the path.
 5. Uncomment the following lines in the `Render::Display` method in `render.cpp`. These lines will include the path in the rendered map:
 ```
     // DrawPath(surface);
-    // DrawStartPosition(surface);   
+    // DrawStartPosition(surface);
     // DrawEndPosition(surface);
 ```

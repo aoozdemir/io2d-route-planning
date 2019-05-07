@@ -30,12 +30,12 @@ RouteModel::Node *RouteModel::Node::FindNeighbor(std::vector<int> node_indices) 
     Node *closest_node = nullptr;
     Node node;
 
-    for (int i = 0; i < node_indices.size(); i++) {
-        node = parent_model->SNodes()[i];
+    for (int node_idx : node_indices) {
+        node = parent_model->SNodes()[node_idx];
 
         if (this->distance(node) != 0 && !node.visited) {
             if (closest_node == nullptr || this->distance(node) < this->distance(*closest_node)) {
-                closest_node = &parent_model->SNodes()[i];
+                closest_node = &parent_model->SNodes()[node_idx];
             }
         }
     }
