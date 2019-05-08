@@ -5,7 +5,7 @@ RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, floa
     start_x *= 0.01;
     start_y *= 0.01;
     end_x *= 0.01;
-    end_x *= 0.01;
+    end_y *= 0.01;
 
     start_node = &m_Model.FindClosestNode(start_x, start_y);
     end_node = &m_Model.FindClosestNode(end_x, end_y);
@@ -27,25 +27,22 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
 }
 
 void RoutePlanner::AStarSearch() {
-    end_node->parent = start_node;
-    m_Model.path = ConstructFinalPath(end_node);
+    start_node->visited = true;
+    open_list.push_back(start_node);
+    RouteModel::Node *current_node = nullptr;
+
+    while (open_list.size() > 0) {
+        current_node = NextNode();
+
+        if (current_node->distance(*end_node) == 0) {
+            m_Model.path = ConstructFinalPath(current_node);
+            return;
+        } else {
+            AddNeighbors(current_node);
+        }
+    }
+
     return;
-    // start_node->visited = true;
-    // open_list.push_back(start_node);
-    // RouteModel::Node *current_node = nullptr;
-
-    // while (open_list.size() > 0) {
-    //     current_node = NextNode();
-
-    //     if (current_node->distance(*end_node) == 0) {
-    //         m_Model.path = ConstructFinalPath(current_node);
-    //         return;
-    //     } else {
-    //         AddNeighbors(current_node);
-    //     }
-    // }
-
-    // return;
 }
 
 float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
@@ -53,8 +50,8 @@ float RoutePlanner::CalculateHValue(RouteModel::Node const *node) {
 }
 
 RouteModel::Node *RoutePlanner::NextNode() {
-    std::sort(open_list.begin(), open_list.end(), [](const auto &_1st, const auto &_2nd) {
-        return _1st->h_value + _1st->g_value < _2nd->h_value + _2nd->g_value;
+    std::sort(open_list.begin(), open_list.end(), [](const auto &a, const auto &b) {
+        return a->h_value + a->g_value < b->h_value + b->g_value;
     });
 
     RouteModel::Node *lowest = open_list.front();

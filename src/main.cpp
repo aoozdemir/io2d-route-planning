@@ -56,10 +56,10 @@ int main(int argc, const char** argv) {
     // std::cin >> end_x;
     // std::cin >> end_y;
 
-    start_x = 150;
-    start_y = 150;
-    end_x = 200;
-    end_y = 200;
+    start_x = 50;
+    start_y = 50;
+    end_x = 25;
+    end_y = 25;
 
     // Build Model.
     RouteModel model{osm_data};
@@ -72,7 +72,7 @@ int main(int argc, const char** argv) {
 
     Render render{model};
 
-    auto display = io2d::output_surface{400, 400, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
+    auto display = io2d::output_surface{600, 600, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
     display.size_change_callback([](io2d::output_surface& surface) {
         surface.dimensions(surface.display_dimensions());
     });

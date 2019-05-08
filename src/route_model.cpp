@@ -62,7 +62,7 @@ RouteModel::Node &RouteModel::FindClosestNode(float x, float y) {
     float distance;
     int closest_idx;
 
-    for (const auto &road : Roads()) {
+    for (const Model::Road &road : Roads()) {
         if (road.type != Model::Road::Type::Footway) {
             for (int node_idx : Ways()[road.way].nodes) {
                 distance = tmp_node.distance(SNodes()[node_idx]);
