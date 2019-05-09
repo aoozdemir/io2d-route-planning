@@ -10,7 +10,10 @@
 
 using namespace std::experimental;
 
-static std::optional<std::vector<std::byte>> ReadFile(const std::string& path) {
+float start_x, start_y, end_x, end_y;
+
+static std::optional<std::vector<std::byte>>
+ReadFile(const std::string& path) {
     std::ifstream is{path, std::ios::binary | std::ios::ate};
     if (!is)
         return std::nullopt;
@@ -24,6 +27,22 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string& path) {
     if (contents.empty())
         return std::nullopt;
     return std::move(contents);
+}
+
+void get_input_for(std::string key) {
+    std::cout << "Enter the value for " << key << ": \t";
+
+    if (key == "start_x") {
+        std::cin >> start_x;
+    } else if (key == "start_y") {
+        std::cin >> start_y;
+    } else if (key == "end_x") {
+        std::cin >> end_x;
+    } else if (key == "end_y") {
+        std::cin >> end_y;
+    }
+
+    return;
 }
 
 int main(int argc, const char** argv) {
@@ -47,19 +66,18 @@ int main(int argc, const char** argv) {
             osm_data = std::move(*data);
     }
 
-    // TODO: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
-    // user input for these values using std::cin. Pass the user input to the
-    // RoutePlanner object below.
-    float start_x, start_y, end_x, end_y;
-    // std::cin >> start_x;
-    // std::cin >> start_y;
-    // std::cin >> end_x;
-    // std::cin >> end_y;
+    std::cout
+        << R"HEREDOC(
+We need some inputs for start and end positions.
+Both position will need an X and Y.
+And lastly, X and Y should be between 0 and 100.
+)HEREDOC"
+        << "\n";
 
-    start_x = 50;
-    start_y = 50;
-    end_x = 25;
-    end_y = 25;
+    get_input_for("start_x");
+    get_input_for("start_y");
+    get_input_for("end_x");
+    get_input_for("end_y");
 
     // Build Model.
     RouteModel model{osm_data};
@@ -68,11 +86,16 @@ int main(int argc, const char** argv) {
     RoutePlanner route_planner{model, start_x, start_y, end_x, end_y};
 
     route_planner.AStarSearch();
-    std::cout << "Distance: " << route_planner.GetDistance() << "\n";
+    std::cout << "\n"
+              << "Distance: "
+              << "\t\t\t"
+              << route_planner.GetDistance()
+              << " meters"
+              << "\n";
 
     Render render{model};
 
-    auto display = io2d::output_surface{600, 600, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
+    auto display = io2d::output_surface{640, 640, io2d::format::argb32, io2d::scaling::none, io2d::refresh_style::fixed, 30};
     display.size_change_callback([](io2d::output_surface& surface) {
         surface.dimensions(surface.display_dimensions());
     });
